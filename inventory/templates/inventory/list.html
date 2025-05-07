@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory List</title>
+    {% load static %}
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #333;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .available {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .unavailable {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .view-link {
+            color: #007bff;
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+        }
+        .view-link:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        .thumbnail {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Inventory List</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Supplier</th>
+                    <th>Availability</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inventory in inventories %}
+                <tr>
+                    <td>{{ inventory.name }}</td>
+                    <td>{{ inventory.supplier.name }}</td>
+                    <td>
+                        <span class="{% if inventory.availability %}available{% else %}unavailable{% endif %}">
+                            {{ inventory.availability|yesno:"Available,Unavailable" }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'inventory_detail' inventory.id %}" class="view-link">View Details</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html> 
